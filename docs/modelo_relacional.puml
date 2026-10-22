@@ -1,0 +1,119 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+entity "Usuario" as usuario {
+  * id_usuario : INT <<PK>>
+  --
+  nome : VARCHAR(100)
+  email : VARCHAR(100)
+  perfil : VARCHAR(20)
+  telefone : VARCHAR(20)
+  data_inclusao : DATETIME
+  data_alteracao : DATETIME
+}
+
+entity "Equipamento" as equipamento {
+  * id_equipamento : INT <<PK>>
+  --
+  nome : VARCHAR(100)
+  categoria : VARCHAR(50)
+  descricao : TEXT
+  requer_autorizacao : BOOLEAN
+  status : VARCHAR(20)
+  data_inclusao : DATETIME
+  data_alteracao : DATETIME
+}
+
+entity "Autorizacao" as autorizacao {
+  * id_autorizacao : INT <<PK>>
+  --
+  * id_usuario : INT <<FK>>
+  * id_equipamento : INT <<FK>>
+  data_autorizacao : DATE
+}
+
+entity "Reserva" as reserva {
+  * id_reserva : INT <<PK>>
+  --
+  * id_usuario : INT <<FK>>
+  * id_equipamento : INT <<FK>>
+  data_hora_inicio : DATETIME
+  data_hora_fim : DATETIME
+  status : VARCHAR(20)
+}
+
+entity "Projeto" as projeto {
+  * id_projeto : INT <<PK>>
+  --
+  nome : VARCHAR(100)
+  descricao : TEXT
+  data_inicio : DATE
+  data_fim : DATE
+}
+
+entity "Projeto_Usuario" as projeto_usuario {
+  * id_projeto : INT <<PK, FK>>
+  * id_usuario : INT <<PK, FK>>
+  --
+  data_inicio : DATE
+}
+
+entity "Projeto_Equipamento" as projeto_equipamento {
+  * id_projeto : INT <<PK, FK>>
+  * id_equipamento : INT <<PK, FK>>
+}
+
+entity "Material" as material {
+  * id_material : INT <<PK>>
+  --
+  nome : VARCHAR(100)
+  unidade_medida : VARCHAR(20)
+  quantidade_disponivel : DECIMAL(10,2)
+}
+
+entity "Projeto_Material" as projeto_material {
+  * id_projeto : INT <<PK, FK>>
+  * id_material : INT <<PK, FK>>
+  --
+  quantidade : DECIMAL(10,2)
+}
+
+entity "Ocorrencia" as ocorrencia {
+  * id_ocorrencia : INT <<PK>>
+  --
+  * id_equipamento : INT <<FK>>
+  data_hora : DATETIME
+  descricao : TEXT
+}
+
+entity "Manutencao" as manutencao {
+  * id_manutencao : INT <<PK>>
+  --
+  * id_equipamento : INT <<FK>>
+  id_ocorrencia : INT <<FK>>
+  data_hora_inicio : DATETIME
+  data_hora_fim : DATETIME
+  descricao_servico : TEXT
+}
+
+' Relacionamentos
+usuario ||--o{ autorizacao
+equipamento ||--o{ autorizacao
+
+usuario ||--o{ reserva
+equipamento ||--o{ reserva
+
+usuario ||--o{ projeto_usuario
+projeto ||--o{ projeto_usuario
+
+projeto ||--o{ projeto_equipamento
+equipamento ||--o{ projeto_equipamento
+
+projeto ||--o{ projeto_material
+material ||--o{ projeto_material
+
+equipamento ||--o{ ocorrencia
+equipamento ||--o{ manutencao
+ocorrencia |o--o| manutencao
+
+@enduml
