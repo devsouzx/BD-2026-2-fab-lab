@@ -12,8 +12,7 @@ bd/
 ├── Trabalho Final - Projeto Lógico Conceitual.pdf
 ├── Trabalho Final - Projeto Lógico Relacional.pdf
 ├── Modelo entidade-relacionamento.png
-├── modelo_relacional.png / modelo_relacional.drawio
-├── resultados_selects.md              # SELECTs, views e testes de triggers COM resultados
+├── modelo_relacional.png
 └── scripts/
     ├── 00_criar_banco.sql             # CREATE DATABASE (rodar conectado ao banco postgres)
     ├── 01_schema_ddl.sql              # 13 tabelas, índices, funções e triggers
