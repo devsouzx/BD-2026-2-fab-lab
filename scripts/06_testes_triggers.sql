@@ -40,10 +40,20 @@ VALUES (7, 2, '2026-11-25 09:00:00', '2026-11-25 11:00:00');
 INSERT INTO reserva (id_usuario, id_equipamento, data_hora_inicio, data_hora_fim)
 VALUES (3, 2, '2026-11-20 10:00:00', '2026-11-20 12:00:00');
 
--- T07. RF11 - Ender 3 (equip. 5) está em manutenção sem data de fim
--- Erro esperado: RF11: equipamento em manutenção no período solicitado.
+-- T07. RF11 - Ender 3 (equip. 5) está com status 'Em manutenção'
+-- Erro esperado: RF11: equipamento indisponível ou em manutenção não pode ser reservado.
 INSERT INTO reserva (id_usuario, id_equipamento, data_hora_inicio, data_hora_fim)
 VALUES (1, 5, '2026-11-22 09:00:00', '2026-11-22 10:00:00');
+
+-- T07b. RF11 - Osciloscópio Digital (equip. 7) está com status 'Indisponível'
+-- Erro esperado: RF11: equipamento indisponível ou em manutenção não pode ser reservado.
+INSERT INTO reserva (id_usuario, id_equipamento, data_hora_inicio, data_hora_fim)
+VALUES (1, 7, '2026-11-26 09:00:00', '2026-11-26 10:00:00');
+
+-- T07c. RF11 - Cortadora 9060 (equip. 2) esteve em manutenção em 20/10 das 15:00 às 17:00
+-- Erro esperado: RF11: equipamento em manutenção no período solicitado.
+INSERT INTO reserva (id_usuario, id_equipamento, data_hora_inicio, data_hora_fim)
+VALUES (1, 2, '2026-10-20 16:00:00', '2026-10-20 16:30:00');
 
 -- T08. RF07 (utilização) - usuário 7 tenta usar equipamento restrito
 -- Erro esperado: RF07: usuário sem autorização para utilizar este equipamento.
