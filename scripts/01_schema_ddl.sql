@@ -277,7 +277,15 @@ BEGIN
         RAISE EXCEPTION 'RF10: já existe reserva para este equipamento no período.';
     END IF;
 
-    -- RF11 (manutenção sem data de fim = em andamento)
+    -- RF11 (a) equipamento Indisponível ou Em manutenção não aceita nova reserva ativa
+    IF NEW.status = 'Ativa'
+       AND (SELECT status FROM equipamento
+             WHERE id_equipamento = NEW.id_equipamento)
+           IN ('Indisponível', 'Em manutenção') THEN
+        RAISE EXCEPTION 'RF11: equipamento indisponível ou em manutenção não pode ser reservado.';
+    END IF;
+
+    -- RF11 (b) período coincide com manutenção registrada (sem data de fim = em andamento)
     IF EXISTS (SELECT 1 FROM manutencao m
                 WHERE m.id_equipamento = NEW.id_equipamento
                   AND NEW.data_hora_inicio < COALESCE(m.data_hora_fim, 'infinity'::TIMESTAMP)
